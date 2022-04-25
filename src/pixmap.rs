@@ -115,9 +115,15 @@ impl Pixmap {
     fn pixel_index(&self, x: usize, y: usize) -> Result<usize, PixmapErr> {
         // Check pixel bounds
         if x >= self.dimentions.0 {
-            return Err(PixmapErr::OutOfBound("x coordinate out of bound"));
+            return Err(PixmapErr::OutOfBound(format!(
+                "x coordinate {} out of bounds",
+                x
+            )));
         } else if y >= self.dimentions.1 {
-            return Err(PixmapErr::OutOfBound("y coordinate out of bound"));
+            return Err(PixmapErr::OutOfBound(format!(
+                "y coordinate {} out of bounds",
+                y
+            )));
         }
 
         // Determine the index and return
@@ -158,7 +164,7 @@ unsafe impl Sync for Pixmap {}
 
 /// An error representation for pixel map operations.
 #[derive(Debug)]
-pub enum PixmapErr<'a> {
+pub enum PixmapErr {
     /// The given pixel coordinate or index is out of bound.
-    OutOfBound(&'a str),
+    OutOfBound(String),
 }
